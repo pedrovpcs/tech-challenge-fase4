@@ -1,0 +1,37 @@
+# IDE e ambiente local
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Arquivos de build
+target/
+.aws-sam/
+build/
+*.log
+
+# Segredos, credenciais e configurações de máquina
+.env
+.env.*
+!.env.example
+.aws/
+**/credentials
+**/secrets.*
+*.pem
+*.key
+
+# Instruções operacionais locais, fora do repositório público
+**/AGENTS.md
+INICIO_LOCAL.txt
+.tools/
+
+# Credenciais e configuracoes operacionais locais
+*.p12
+*.pfx
+.netrc
+.npmrc
+.pypirc
+samconfig.toml
+*.tmp
+*.bak
+*~

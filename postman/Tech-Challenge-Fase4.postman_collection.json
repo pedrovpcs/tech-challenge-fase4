@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "Tech Challenge — Fase 4 — Avaliações com AWS IAM",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Avaliacoes de aulas via API protegida por AWS_IAM/SigV4. Configurar endpoint e regiao da propria stack e credenciais temporarias no Vault local. Endpoint inclui /v1/avaliacao."
+  },
+  "auth": {
+    "type": "awsv4",
+    "awsv4": [
+      {
+        "key": "accessKey",
+        "value": "{{vault:tc4-access-key}}",
+        "type": "string"
+      },
+      {
+        "key": "secretKey",
+        "value": "{{vault:tc4-secret-key}}",
+        "type": "string"
+      },
+      {
+        "key": "sessionToken",
+        "value": "{{vault:tc4-session-token}}",
+        "type": "string"
+      },
+      {
+        "key": "region",
+        "value": "{{awsRegion}}",
+        "type": "string"
+      },
+      {
+        "key": "service",
+        "value": "execute-api",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "endpoint",
+      "value": "https://API_ID.execute-api.us-east-2.amazonaws.com/v1/avaliacao"
+    },
+    {
+      "key": "awsRegion",
+      "value": "us-east-2"
+    }
+  ],
+  "item": [
+    {
+      "name": "Sem autenticação — esperado 403",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"descricao\": \"Avaliacao critica de demonstracao\", \"nota\": 2}"
+        },
+        "url": "{{endpoint}}",
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "Crítica — esperado 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"descricao\": \"Avaliacao critica de demonstracao\", \"nota\": 2}"
+        },
+        "url": "{{endpoint}}"
+      }
+    },
+    {
+      "name": "Média — esperado 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"descricao\": \"Avaliacao media de demonstracao\", \"nota\": 5}"
+        },
+        "url": "{{endpoint}}"
+      }
+    },
+    {
+      "name": "Baixa — esperado 201",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"descricao\": \"Avaliacao positiva de demonstracao\", \"nota\": 8}"
+        },
+        "url": "{{endpoint}}"
+      }
+    },
+    {
+      "name": "Nota decimal — esperado 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"descricao\": \"Avaliacao com nota invalida\", \"nota\": 3.5}"
+        },
+        "url": "{{endpoint}}"
+      }
+    }
+  ]
+}
